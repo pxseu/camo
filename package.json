@@ -3,7 +3,7 @@
   "version": "2.3.0",
   "scripts": {
     "build": "coffee -c server.coffee",
-    "prod": "cross-env PORT=9090 node server.js"
+    "prod": "cross-env PORT=9090 CAMO_HOSTNAME=pxseu node server.js"
   },
   "dependencies": {
     "cross-env": "^7.0.3",
