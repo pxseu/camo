@@ -1,8 +1,6 @@
-dotenv = require('dotenv')
-dotenv.config()
+### WHAT THE FAK IS THIS ###
 
-console.log(process.env.CAMO_KEY)
-
+dotenv      = require 'dotenv'
 Fs          = require 'fs'
 Path        = require 'path'
 Url         = require 'url'
@@ -11,11 +9,12 @@ Https       = require 'https'
 Crypto      = require 'crypto'
 QueryString = require 'querystring'
 
+dotenv.config()
+
 port            = parseInt process.env.PORT        || 8081, 10
-version         = require(Path.resolve(__dirname, "package.json")).version
 shared_key      = process.env.CAMO_KEY             || '0x24FEEDFACEDEADBEEFCAFE'
 max_redirects   = process.env.CAMO_MAX_REDIRECTS   || 4
-camo_hostname   = process.env.CAMO_HOSTNAME        || "unknown"
+camo_hostname   = process.env.CAMO_HOSTNAME        || "pxseu"
 socket_timeout  = process.env.CAMO_SOCKET_TIMEOUT  || 10
 logging_enabled = process.env.CAMO_LOGGING_ENABLED || "disabled"
 keep_alive = process.env.CAMO_KEEP_ALIVE || "false"
@@ -47,6 +46,7 @@ default_security_headers =
   "X-Content-Type-Options": "nosniff"
   "Content-Security-Policy": "default-src 'none'; img-src data:; style-src 'unsafe-inline'"
   "Strict-Transport-Security" : "max-age=31536000; includeSubDomains"
+  "X-Media-Proxy" : "pxseu"
 
 four_oh_four = (resp, msg, url) ->
   error_log "#{msg}: #{url?.format() or 'unknown'}"
@@ -213,17 +213,17 @@ server = Http.createServer (req, resp) ->
     resp.end 'ok'
   else if req.url == '/status'
     resp.writeHead 200, default_security_headers
-    resp.end "ok #{current_connections}/#{total_connections} since #{started_at.toString()}"
+    resp.end "ok #{current_connections}/#{total_connections} since #{started_at.toString()}; i wuv u btw <333"
   else
     total_connections   += 1
     current_connections += 1
     url = Url.parse req.url
-    user_agent = process.env.CAMO_HEADER_VIA or= "Camo Asset Proxy #{version}"
+    user_agent = process.env.CAMO_HEADER_VIA or= "Camo Asset Proxy"
 
     transferredHeaders =
       'Via'                     : user_agent
       'User-Agent'              : user_agent
-      'Accept'                  : req.headers.accept ? 'image/*'
+      'Accept'                  : req.headers.accept ? 'image/*; video/*'
       'Accept-Encoding'         : req.headers['accept-encoding'] ? ''
       "X-Frame-Options"         : default_security_headers["X-Frame-Options"]
       "X-XSS-Protection"        : default_security_headers["X-XSS-Protection"]
@@ -270,6 +270,6 @@ server = Http.createServer (req, resp) ->
     else
       four_oh_four(resp, "No pathname provided on the server")
 
-console.log "SSL-Proxy running on #{port} with node:#{process.version} pid:#{process.pid} version:#{version}."
+console.log "SSL-Proxy running on #{port} with node:#{process.version} pid:#{process.pid}."
 
 server.listen port
