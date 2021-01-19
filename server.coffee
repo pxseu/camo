@@ -1,3 +1,8 @@
+dotenv = require('dotenv')
+dotenv.config()
+
+console.log(process.env.CAMO_KEY)
+
 Fs          = require 'fs'
 Path        = require 'path'
 Url         = require 'url'
@@ -202,7 +207,7 @@ hexdec = (str) ->
 server = Http.createServer (req, resp) ->
   if req.method != 'GET' || req.url == '/'
     resp.writeHead 200, default_security_headers
-    resp.end 'hwhat'
+    resp.end 'uwu owo aww'
   else if req.url == '/favicon.ico'
     resp.writeHead 200, default_security_headers
     resp.end 'ok'

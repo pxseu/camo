@@ -1,11 +1,19 @@
 {
   "name": "camo",
   "version": "2.3.0",
-  "dependencies": {},
+  "scripts": {
+    "build": "coffee -c server.coffee",
+    "prod": "cross-env PORT=9090 node server.js"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0"
+  },
   "engines": {
     "node": "^6.11.1"
   },
   "devDependencies": {
-    "coffee-script": "^1.12.6"
+    "coffee-script": "^1.12.6",
+    "coffeescript": "^2.5.1"
   }
 }
